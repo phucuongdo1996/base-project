@@ -1,9 +1,18 @@
-var common = (function () {
-    let modules = {};
+let BUTTON_SUBMIT_FORM_SEARCH_SELECTOR = '#btn-submit-base-form-search';
+let BASE_FORM_SEARCH_SELECTOR = '#base-form-search';
+let BUTTON_SUBMIT_FORM_DATA_SELECTOR = '#btn-submit-base-form-data';
+let BASE_FORM_DATA_SELECTOR = '#base-form-data';
 
-    modules.submitModalConfirm = function () {
-        let form = $('#form-modal-confirm')[0];
-        let redirectUrl = $('#form-modal-confirm input[name=redirect_url]').val();
+var baseFunction = (function () {
+    let modules = {};
+    // Submit form search
+    modules.submitBaseFormSearch = function () {
+        $(BASE_FORM_SEARCH_SELECTOR).submit();
+    }
+    // Submit form data
+    modules.submitBaseFormData = function () {
+        let form = $(BASE_FORM_DATA_SELECTOR)[0];
+        let redirectUrl = $(BASE_FORM_DATA_SELECTOR + ' input[name=redirect_url]').val();
         let formData = new FormData(form);
         let submitAjax = $.ajax({
             url: $(form).prop('action'),
@@ -13,30 +22,36 @@ var common = (function () {
             contentType: false
         })
         submitAjax.done(function (response) {
-            window.location.href = redirectUrl;
+            if (redirectUrl) {
+                window.location.href = redirectUrl;
+            } else {
+                window.location.reload();
+            }
         });
         submitAjax.fail(function (response) {
             let messageList = response.responseJSON.errors;
-            base.showMessageValidate(messageList);
-            button.prop('disabled', false).removeClass('btn-loading');
+            commonFunction.showMessageValidate(messageList);
+            $(BUTTON_SUBMIT_FORM_DATA_SELECTOR).prop('disabled', false).removeClass('btn-loading');
         });
     }
+
     return modules;
 }(window.jQuery, window, document));
 
 $(document).ready(function () {
-    $('#btn-common-submit-search').on('click', function () {
-        $('#common-form-search').submit();
-        base.disableButton($(this));
+    // Resolve click submit form search
+    $(BUTTON_SUBMIT_FORM_SEARCH_SELECTOR).on('click', function () {
+        baseFunction.submitBaseFormSearch();
+        commonFunction.disableButtonWhenLoading($(this));
     });
-
-    $('#btn-common-clear-search').on('click', function () {
-        window.location.href = $('#common-form-search').prop('action');
-        base.disableButton($(this));
+    // Resolve click submit form data
+    $(BUTTON_SUBMIT_FORM_DATA_SELECTOR).on('click', function () {
+        baseFunction.submitBaseFormData();
+        commonFunction.disableButtonWhenLoading($(this));
     });
-
-    $('#btn-submit-modal-confirm').on('click', function () {
-        common.submitModalConfirm();
-        base.disableButton($(this));
+    // Remove class-error and message-error when focus field
+    $(document).on('focus', '.error-field', function () {
+        $(this).removeClass('error-field');
+        $('.error-message[data-field=' + $(this).prop('name') + ']').text('');
     });
 });

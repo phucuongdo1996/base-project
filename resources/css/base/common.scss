@@ -1,24 +1,11 @@
 @import "./variables.scss";
 
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-size: 16px;
+.m20t {
+    margin-top: 20px !important;
 }
 
-body {
-    background-color: $background-color;
-}
-
-#main {
-    padding: 60px;
-}
-
-#base-form-search {
-    padding: 20px;
-    border: 1px solid rgba(0,0,0,.125);
-    border-radius: 10px;
+.p20t {
+    padding-top: 20px !important;
 }
 
 // Define common class

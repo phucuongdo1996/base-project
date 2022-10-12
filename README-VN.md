@@ -3,8 +3,8 @@ Author by: Do Phu Cuong <phucuongdo1996@gmail.com>
 
 Laravel version: 8.x
 
-## Build project for developer
-Clone laradock from laradock.io:
+## Dựng môi trường
+Clone laradock từ laradock.io:
 ````
 git clone https://github.com/Laradock/laradock.git
 ````
@@ -23,7 +23,7 @@ Build NGINX and MYSQL
 docker-compose build nginx mysql
 docker-compose up -d nginx mysql
 ````
-In workspace install composer
+Vào workspace cài đặt package
 ````
 docker-compose exec workspace bash
 >> composer install
@@ -32,7 +32,7 @@ docker-compose exec workspace bash
 >> php artisan migrate
 >> php artisan db:seed
 ````
-Run laravel mix
+Chạy laravel mix
 ````
 >> npm run dev
 ````
@@ -44,23 +44,24 @@ vi .env
 ````
 `Config Database Connection`
 ## For Developer
-Create Model with Migration and Controller
+Tạo model kèm theo migration và controller
 ````
 php artisan make:model {name model} --mc
 ````
-Create migration
+Tạo migration
 ````
 php artisan make:migration create_flights_table
 ````
-Create Enum
+Tạo enum cho Model (Các enum của 1 model nhóm vào 1 folder tên theo tên Model)
 ````
 php artisan make:enum User/Role
 ````
-Create Policy (example: Post model)
+Tạo Policy để kiểm tra quyền thao tác với Model (Create, Update, Delete,...)
 ````
 php artisan make:policy PostPolicy --model=Post
 ````
-Create Component for Blade Templates
+Tạo Component sử dụng ở view Blade (Sau khi tạo đăng ký trong AppServiceProvider.php)
 ````
 php artisan make:component Form/Button
+php artisan make:component Modal/Confirm
 ````

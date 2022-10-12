@@ -2,66 +2,95 @@
 
 namespace App\Contracts\Repositories;
 
-use Illuminate\Database\Eloquent\Model;
-
+/**
+ * Base repository interface
+ *
+ * @package   App\Contracts\Repositories
+ * @author    Do Phu Cuong <phucuongdo1996@gmail.com>
+ * @link      https://laravel.com Laravel(tm) Project
+ * @version   8.x
+ */
 interface BaseRepositoryInterface
 {
     /**
-     * @param string[] $columns
-     * @param array $with
+     * Get all data.
+     *
      * @return mixed
      */
-    public function getColumns($columns = ['*'], $with = []);
+    public function getAll();
 
     /**
+     * Find by id.
+     *
      * @param $id
-     * @param string[] $columns
      * @return mixed
      */
-    public function find($id, $columns = ['*']);
+    public function find($id);
 
     /**
-     * @param $conditions
-     * @param string[] $columns
+     * Create data.
+     *
+     * @param array $attributes
      * @return mixed
      */
-    public function findBy($conditions, $columns = ['*']);
+    public function create(array $attributes);
 
     /**
-     * @param $conditions
-     * @param string[] $columns
+     * Update data.
+     *
+     * @param $id
+     * @param array $attributes
      * @return mixed
      */
-    public function findOneBy($conditions, $columns = ['*']);
+    public function update($id, array $attributes);
 
     /**
-     * @param $data
-     * @return mixed
-     */
-    public function create($data);
-
-    /**
-     * @param Model $model
+     * Create multiple data.
+     *
      * @param array $data
      * @return mixed
      */
-    public function update(Model $model, array $data);
+    public function createMultiple(array $data);
 
     /**
-     * @param Model $model
+     * Create data.
+     *
+     * @param array $data
      * @return mixed
      */
-    public function destroy(Model $model);
+    public function store(array $data);
 
     /**
-     * @param $ids
-     * @return mixed
-     */
-    public function destroyMulti($ids);
-
-    /**
+     * Delete by id.
+     *
      * @param $id
      * @return mixed
      */
-    public function restoreSoftDelete($id);
+    public function deleteById($id);
+
+    /**
+     * Delete many by id.
+     *
+     * @param array $ids
+     * @return mixed
+     */
+    public function deleteMultipleById(array $ids);
+
+    /**
+     * Find or fail
+     *
+     * @param $id
+     * @param array $columns
+     * @return mixed
+     */
+    public function findOrFail($id, array $columns = ['*']);
+
+    /**
+     * Update or create model
+     *
+     * @param $conditions
+     * @param $attributes
+     * @return mixed
+     */
+    public function updateOrCreate($conditions, $attributes);
 }

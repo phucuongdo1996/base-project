@@ -4,8 +4,9 @@ namespace App\Traits;
 
 trait CommonScope
 {
-
     /**
+     * Filter where like: %needed%
+     *
      * @param $query
      * @param $data
      * @return mixed

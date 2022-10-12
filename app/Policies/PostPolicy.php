@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class PostPolicy
 {
@@ -36,8 +37,8 @@ class PostPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
-     * @return mixed
+     * @param User $user
+     * @return void
      */
     public function create(User $user)
     {
@@ -47,13 +48,15 @@ class PostPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Post  $post
-     * @return mixed
+     * @param User $user
+     * @param Post $post
+     * @return Response
      */
-    public function update(User $user, Post $post)
+    public function update(User $user, Post $post): Response
     {
-        //
+        return ($user->isAdmin() || $user->id === $post->user_id)
+            ? Response::allow()
+            : Response::deny('You do not own this post.');
     }
 
     /**
